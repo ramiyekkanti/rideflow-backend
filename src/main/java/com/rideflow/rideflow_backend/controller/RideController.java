@@ -1,9 +1,11 @@
 package com.rideflow.rideflow_backend.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rideflow.rideflow_backend.dto.CreateRideRequest;
 import com.rideflow.rideflow_backend.dto.RideResponse;
+import com.rideflow.rideflow_backend.dto.UpdateRideStatusRequest;
 import com.rideflow.rideflow_backend.service.RideService;
 
 @RestController
@@ -29,9 +32,19 @@ public class RideController {
         return rideService.bookRide(request);
     }   
 
-    @GetMapping("/rides/{riderId}")
+    @GetMapping("/rides/{riderId}/rides")
     public List<RideResponse> getRideByRiderId(@PathVariable String riderId){
         return rideService.getRidesByRider(riderId);
+    }
+
+    @GetMapping("/rides/{rideId}")
+    public RideResponse getRideByRideId(@PathVariable UUID rideId){
+        return rideService.getRideById(rideId);
+    }
+    
+    @PatchMapping("/rides/{rideId}/status")
+    public RideResponse updateRideStatus(@PathVariable UUID rideId, @RequestBody UpdateRideStatusRequest request){
+        return rideService.updateRideStatus(rideId, request.getStatus());
     }
 
 }
