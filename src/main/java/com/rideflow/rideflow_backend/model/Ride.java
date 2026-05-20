@@ -1,6 +1,7 @@
 package com.rideflow.rideflow_backend.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,35 +12,40 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
 @Entity
-@Table(name = "rides")
+@Table (name = "rides")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ride {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-
-    @Column(nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
+    
+    @Column(name = "rider_id", nullable = false)
     private String riderId;
 
-    @Column(nullable = false)
-    private String pickup;
+    @Column(name = "pickup_location", nullable = false)
+    String pickupLocation;
 
-    @Column(nullable = false)
-    private String dropoff;
+    @Column(name = "dropoff_location", nullable = false)
+    String dropoffLocation;
 
     @Enumerated(EnumType.STRING)
-    private RideStatus status;
+    @Column(name = "status", nullable = false)
+    RideStatus status;
 
-    private Double fare;
-
-    private LocalDateTime createdAt;
+    @Column(name = "created_at", updatable = false)
+    LocalDateTime createdAt;
 
     @PrePersist
-    public void prePersist() {
-        this.status = RideStatus.REQUESTED;
+    public void onCreate(){
         this.createdAt = LocalDateTime.now();
     }
 }
