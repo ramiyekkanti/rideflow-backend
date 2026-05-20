@@ -32,17 +32,17 @@ public class Ride {
     private String riderId;
 
     @Column(name = "pickup_location", nullable = false)
-    String pickupLocation;
+    private String pickupLocation;
 
     @Column(name = "dropoff_location", nullable = false)
-    String dropoffLocation;
+    private String dropoffLocation;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    RideStatus status;
+    private RideStatus status;
 
     @Column(name = "created_at", updatable = false)
-    LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @PrePersist
     public void onCreate(){
